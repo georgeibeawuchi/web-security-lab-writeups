@@ -3,15 +3,14 @@
 │
 ├── xss/
 ├── sqli/
-│   ├── sqli-login-bypass.md
 │   ├── sqli-sql-injection-attack-non-oracle.md
 │
 ├── authentication/
 ├── access-control/
 │
 ├── images/
-│   ├── sqli-union-request.png
-│   ├── sqli-union-results.png
+│   ├── sqli-injection-non-oracle-burp-suite.jpeg
+│   ├── sqli-injection-non-oracle-burp-solved.jpeg
 │
 └── templates/
     └── writeup-template.md
