@@ -9,8 +9,8 @@
 ├── access-control/
 │
 ├── images/
-│   ├── sqli-injection-non-oracle-burp-suite.jpeg
-│   ├── sqli-injection-non-oracle-burp-solved.jpeg
+│   ├── sqli-sql-injection-non-oracle-burp-suite.jpeg
+│   ├── sqli-sql-injection-non-oracle-burp-solved.jpeg
 │
 └── templates/
     └── writeup-template.md
