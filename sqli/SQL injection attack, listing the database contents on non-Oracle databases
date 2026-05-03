@@ -93,3 +93,6 @@ In a real application, this vulnerability could allow attackers to dump entire u
 Account takeovers
 Data breaches
 Regulatory violations
+
+## 🏷️ Tags
+`#sqli` `#union-attack` `#database-enumeration` `#burpsuite`
